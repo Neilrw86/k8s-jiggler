@@ -123,8 +123,8 @@
         // Function to start the jiggler
         function startJiggler() {
             if (!isJiggling) {
-                // Set an interval to call jiggleMouse every 10 seconds (10000 milliseconds)
-                jigglerInterval = setInterval(jiggleMouse, 10000);
+                // Set an interval to call jiggleMouse every 5 seconds (5000 milliseconds)
+                jigglerInterval = setInterval(jiggleMouse, 5000);
                 isJiggling = true;
                 startButton.disabled = true; // Disable start button
                 stopButton.disabled = false; // Enable stop button
