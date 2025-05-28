@@ -1,5 +1,6 @@
  # Use a lightweight Nginx image
- FROM nginx:stable-alpine
+ FROM nginx:latest
+ # Or use nginx:stable-alpine for a smaller, specific version
 
  # Copy your application files into the Nginx default webroot
  # Assuming your page files (index.html, js, css, etc.) are in a directory named 'app'
