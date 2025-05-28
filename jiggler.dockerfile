@@ -11,7 +11,7 @@
  COPY ./nginx.conf /etc/nginx/nginx.conf
 
  # Expose the port Nginx listens on
- EXPOSE 80
+ EXPOSE 8080
 
  # Command to run Nginx (default in the base image)
  CMD ["nginx", "-g", "daemon off;"]
