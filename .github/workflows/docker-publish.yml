@@ -1,0 +1,43 @@
+name: Docker Image CI for Mouse Jiggler
+
+on:
+  push:
+    branches:
+      - main # Or your default branch, e.g., master
+  pull_request: # Optional: build on PRs to check if Dockerfile is valid
+    branches:
+      - main
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    # Grant GITHUB_TOKEN permissions to write to GHCR
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }} # User who triggered the workflow
+          password: ${{ secrets.GITHUB_TOKEN }} # Special token provided by GitHub Actions
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }} # e.g., ghcr.io/your-username/your-repo-name
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Root of your repository
+          file: ./jiggler.dockerfile # Path to your Dockerfile
+          push: ${{ github.event_name != 'pull_request' }} # Only push on actual pushes to the branch, not on PR builds
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
